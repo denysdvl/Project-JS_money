@@ -14,17 +14,21 @@ let btnStart = document.querySelector('#start'),
     btnToAppeove2 = document.getElementsByTagName("button")[1],
     btnToCalc = document.getElementsByTagName("button")[2],
     chooseIncome = document.querySelector(".choose-income"),
-    savingsChoose = document.querySelector(".checksavings"),
+    savingsChoose = document.querySelector("#savings"),
     chooseSum = document.querySelector(".choose-sum"),
     choosePercent = document.querySelector(".choose-percent"),
     yearValue = document.querySelector(".year-value"),
     monthValue = document.querySelector(".month-value"),
     dayValue = document.querySelector(".day-value"),
     inputOptionalExpensesItem = document.querySelectorAll(".optionalexpenses-item"),
-    money, time,sumExpenses = 0;
+    money, time, sumExpenses = 0;
 //////////////////////
 btnStart.addEventListener('click', function () {
     time = prompt("Enter the date in the format YYYY-MM-DD", "");
+    let reg  = /\d\d\d\d\-\d\d\-\d\d/;
+    while(reg.test(time) != true ){
+        time = prompt("Enter the date in the format YYYY-MM-DD", "");
+    }
     money = +prompt("Your budget for the month?", "");
 
     while (isNaN(money) || money == "" || money == null) {
@@ -46,7 +50,7 @@ btnToAppeove1.addEventListener('click', function () {
                 expQuestion2 = inputItemsExpenses[++i].value;
 
             if ((typeof (expQuestion1)) === 'string' && (typeof (expQuestion1)) != null && (typeof (expQuestion2)) !=
-                null && expQuestion1 != '' && expQuestion2 != '' && expQuestion1.length < 50) {            
+                null && expQuestion1 != '' && expQuestion2 != '' && expQuestion1.length < 50) {
                 appData.expenses[expQuestion1] = expQuestion2;
                 sumExpenses += +expQuestion2;
             } else {
@@ -62,21 +66,25 @@ btnToAppeove2.addEventListener('click', function () {
         for (let i = 0; i < inputOptionalExpensesItem.length; i++) {
             let a = inputOptionalExpensesItem[i].value;
             appData.optionalExpenses[i] = a;
-            valueOptionalExpenses.textContent += appData.optionalExpenses[i] + " ";
+            if (i === inputOptionalExpensesItem.length - 1) {
+                valueOptionalExpenses.textContent += appData.optionalExpenses[i];
+            } else {
+                valueOptionalExpenses.textContent += appData.optionalExpenses[i] + ", ";
+            }
         }
     }
 });
 
 btnToCalc.addEventListener('click', function () {
     if (appData.budget != undefined) {
-        if(sumExpenses != undefined) {
-           appData.moneyPerDay = ((appData.budget - sumExpenses) / 30).toFixed(); 
-        }else{
-            appData.moneyPerDay = (appData.budget  / 30).toFixed(); 
+        if (sumExpenses != undefined) {
+            appData.moneyPerDay = ((appData.budget - sumExpenses) / 30).toFixed();
+        } else {
+            appData.moneyPerDay = (appData.budget / 30).toFixed();
 
-        } 
+        }
         valueDaybudget.textContent = appData.moneyPerDay;
-        
+
         if (appData.moneyPerDay <= 100) {
             valueLevel.textContent = "Minimum level of affluence!";
         } else if (appData.moneyPerDay >= 100 && appData.moneyPerDay <= 2000) {
