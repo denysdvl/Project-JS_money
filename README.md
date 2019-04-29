@@ -1,4 +1,4 @@
-###This is my mini-project Calculation of daily budget<h2>
+### This is my mini-project Calculation of daily budget <h2>
         
 In this project I wrote logic on pure JavaScript 
 
